@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { Platform, Text, View, StyleSheet } from 'react-native';
 import * as Location from 'expo-location';
+import { getDatabase, ref, set } from "firebase/database";
 
+const database = getDatabase();
 
 let coords = [];
 
 export default function Loc() {
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
+
+  
 
   useEffect(() => {
     (async () => {
@@ -27,10 +31,17 @@ export default function Loc() {
     text = errorMsg;
   } else if (location) {
     text = JSON.stringify(location);
-    coords=[location.coords.latitude, location.coords.longitude]
+    coords=[location.coords.altitude, location.coords.latitude, location.coords.longitude]
+
+    firebase.database()
+    .ref('weatherAPI/')
+    .set({
+      altitude: coords[0],
+      latitude: coords[1],
+      longitude: coords[2]
+    });
   }
 
-  
   return (
   <View style={{marginTop:100}}>
     <Text>{text}</Text>
