@@ -30,6 +30,7 @@ export default function Loc() {
     coords=[location.coords.latitude, location.coords.longitude]
   }
 
+  
   return (
   <View style={{marginTop:100}}>
     <Text>{text}</Text>
